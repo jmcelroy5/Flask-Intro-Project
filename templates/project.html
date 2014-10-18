@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title="Hackbright Project Info Page">
+    </head>
+    <body>
+        <h1>Project Title: {{ title }}</h1>
+        <h2>Max Grade: {{ max_grade }} </h2><br>
+
+        
+        {% for student in grades %} <!-- Loop through all student grades on project !-->
+        <p>Student: {{ student[0]}} {{ student[1] }} </p>
+        <p>Grade: {{ student[2] }} </p>
+        {% endfor %}
+
+
+    </body>
+</html>

@@ -17,22 +17,38 @@ def get_student():
 
     grades = hackbright_app.show_grades(first_name,last_name)
     print grades
-    # project_names, grades = zip(*grades)
 
     html = render_template("index.html", first_name = row[0],
                                         last_name = row[1],
                                         github = row[2],
                                         grades = grades
-                                        # project_names = project_names
                                         )
-
-
-# def list_project_grades():
-#     hackbright_app
-
-
-
     return html
+
+@app.route('/project')
+def list_project_grades():
+   hackbright_app.connect_to_db()
+   project_name = request.args.get("title") # Getting this key from the URL?
+   
+   student_info = hackbright_app.show_all_grades(project_name)
+   
+   project_info = hackbright_app.get_project(project_name)
+
+   project_title = project_info[1]
+   description = project_info[2]
+   max_grade = project_info[3]
+
+   html = render_template("project.html", title = project_title,
+                                        max_grade = max_grade,
+                                        project = project_info, 
+                                        grades = student_info)
+   return html
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

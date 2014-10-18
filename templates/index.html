@@ -1,17 +1,17 @@
 <html>
     <head>
-        <title="Hackbright Database">
+        <title="Hackbright Student Info Page">
     </head>
     <body>
         <h1>Student: {{first_name}} {{last_name}}</h1>
         <h2>Github Account: {{ github }}</h2>
-        <p> This student is an awesome programmer. </p>
         
         {% for grade in grades %}
-        <p>Project Name: {{ grade[0]}}</p>
+        <p>Project Name: <a href="/project?title={{grade[0]}}"> {{ grade[0]}} </a></p> 
+
         <p>Grade: {{ grade[1] }} </p>
         {% endfor %}
-    
+
 
     </body>
 </html>

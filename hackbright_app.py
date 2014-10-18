@@ -18,14 +18,23 @@ def make_new_student(first_name, last_name, github):
         CONN.commit()
         print "Successfully added student:%s %s" % (first_name, last_name)
 
-def get_project_title(project_title): 
+def get_project(project_title): 
     query = """SELECT * FROM Projects WHERE title = ?"""
     DB.execute(query, (project_title,))
     row = DB.fetchone()
-    print """
-    Project title: %s
-    Description: %s
-    Max grade: %d""" % (row[1],row[2],row[3])
+    return row
+    # print """
+    # Project title: %s
+    # Description: %s
+    # Max grade: %d""" % (row[1],row[2],row[3])
+
+def show_all_grades(project_title):
+    query = """SELECT Students.first_name, Students.last_name, Grades.grade, Grades.project_title
+    FROM Students JOIN Grades ON (Students.github=Grades.student_github)
+    WHERE Grades.project_title = ?"""
+    DB.execute(query, (project_title,))
+    row = DB.fetchall()
+    return row
 
 def make_new_project(title, description, max_grade):
     query = """ INSERT into Projects (title, description, max_grade) values (?,?,?)"""
@@ -61,7 +70,7 @@ def get_grade(last_name, project_title):
     Student: %s %s
     Project: %s
     Grade: %d
-    """ % (row[1],row[2],row[3],row[0]) 
+    """ % (row[1],row[2],row[3],row[0])
 
 def connect_to_db():
     global DB, CONN
@@ -73,7 +82,6 @@ def main():
     command = None
     while command != "quit":
         input_string = raw_input("HBA Database> ")
-        # tokens = input_string.split()
         
         try:
             (command, tokens) = input_string.split(None, 1) 
@@ -95,7 +103,7 @@ def main():
                 print "The new_student command takes 3 args: first name, last name, github"
         elif command == "project_title":
             try:
-                get_project_title(*args)
+                get_project(*args)
             except TypeError:
                 print "The project_title command takes exactly one argument: project title"
         elif command == "add_project":
@@ -118,7 +126,11 @@ def main():
                 show_grades(*args)
             except TypeError:
                 print "The show_grades command takes exactly two arguments: first name, last name"
-
+        elif command == "show_all_grades":
+            try:
+                show_all_grades(*args)
+            except TypeError:
+                print "The show_all_grades command takes exactly one argument: project title"
     CONN.close()
 
 if __name__ == "__main__":
