@@ -23,13 +23,9 @@ def get_project(project_title):
     DB.execute(query, (project_title,))
     row = DB.fetchone()
     return row
-    # print """
-    # Project title: %s
-    # Description: %s
-    # Max grade: %d""" % (row[1],row[2],row[3])
-
+    
 def show_all_grades(project_title):
-    query = """SELECT Students.first_name, Students.last_name, Grades.grade, Grades.project_title
+    query = """SELECT Students.first_name, Students.last_name, Grades.grade, Students.github
     FROM Students JOIN Grades ON (Students.github=Grades.student_github)
     WHERE Grades.project_title = ?"""
     DB.execute(query, (project_title,))

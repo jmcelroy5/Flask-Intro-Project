@@ -4,11 +4,14 @@
     </head>
     <body>
         <h1>Project Title: {{ title }}</h1>
-        <h2>Max Grade: {{ max_grade }} </h2><br>
+        <h3> Description: {{ description }}</h3>
+        <h3>Max Grade: {{ max_grade }} </h3>
+        <br>
 
         
         {% for student in grades %} <!-- Loop through all student grades on project !-->
-        <p>Student: {{ student[0]}} {{ student[1] }} </p>
+        <p>Student: {{ student[0]}} {{ student[1] }} 
+        (GitHub: <a href='/student?github={{student[3]}}'> {{student[3]}} </a>)</p>
         <p>Grade: {{ student[2] }} </p>
         {% endfor %}
 
